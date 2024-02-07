@@ -1,8 +1,8 @@
 pipeline {
-  agent any
-
-  tools {
-    nodejs 'nodejs 8.9.0'
+  agent {
+    docker {
+      image 'node:21-alpine3.18'
+    }
   }
 
   stages {
