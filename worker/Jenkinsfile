@@ -7,18 +7,24 @@ pipeline {
   
   stages {
     stage("build") {
-      echo "Compiling app!"
-      dir('worker') {
-        sh 'mvn compile'
+      steps {
+        echo "Compiling app!"
+        dir('worker') {
+          sh 'mvn compile'
+        }
       }
     }
 
     stage("test") {
-      echo 'Running unit tests on worker app'
+      steps {
+        echo 'Running unit tests on worker app'
+      }
     }
 
     stage("package") {
-      echo 'Packaging worker app'
+      steps {
+        echo 'Packaging worker app'
+      }
     }
   }
 
