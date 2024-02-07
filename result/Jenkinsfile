@@ -1,0 +1,54 @@
+pipeline {
+  agent any
+
+  tools {
+    nodejs 'nodejs 8.9.0'
+  }
+
+  stages {
+    stage("build") {
+      when {
+        changeset '**/result/**'
+      }
+      
+      steps {
+        dir("result") {
+          sh 'npm i'
+        }
+      }
+    }
+
+    stage("test") {
+      when {
+        changeset '**/result/**'
+      }
+
+      steps {
+        dir("result") {
+          sh 'npm i'
+          sh 'npm test'
+        }
+      }
+    }
+  }
+
+  post {
+    always {
+      echo 'Building multibranch pipeline for worker is completed...'
+    }
+
+    success {
+      slackSend (
+        channel: "instavote-ci", 
+        message: "Build succeeded - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL} | Open>)"
+      )
+    }
+
+    failure {
+      slackSend (
+        channel: "instavote-ci", 
+        message: "Build failed - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL} | Open>)"
+      )
+    }
+  }
+}
