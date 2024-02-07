@@ -39,14 +39,14 @@ pipeline {
 
     success {
       slackSend (
-        channel: "instavote-cd", 
+        channel: "instavote-ci", 
         message: "Build succeeded - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL} | Open>)"
       )
     }
 
     failure {
       slackSend (
-        channel: "instavote-cd", 
+        channel: "instavote-ci", 
         message: "Build failed - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL} | Open>)"
       )
     }
